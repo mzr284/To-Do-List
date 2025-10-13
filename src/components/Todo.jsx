@@ -9,6 +9,9 @@ export default function ToDo(){
         {id: uuidv4(), name: "Read a book", status: false}
     ])
     let [vitualTodos, setVirTodos] = useState([])
+    let [search, setSearch] = useState("")
+
+    let todosFilter = todos.filter((td) => td.name.toLowerCase().includes(search.toLowerCase()))
 
     function statusHandler(id){
         let updateTodos = todos.map(
@@ -52,9 +55,9 @@ export default function ToDo(){
             <div className='bg-white py-12 px-5 w-110'>
                <div className='container flex flex-col gap-3 items-center justify-center'>
                 <h1 id="main-title" className='text-blue-900 font-bold text-3xl'>TO DO LIST</h1>
-                <input id="input-head" placeholder="search..." className='bg-blue-100 px-2 py-1 rounded-4xl w-full mb-4' onChange={()=>{}}/>
+                <input id="input-head" placeholder="search..." className='bg-blue-100 px-2 py-1 rounded-4xl w-full mb-4' onChange={(e)=> setSearch(e.target.value)}/>
 
-                <ToDoList todos={todos} statusHandler={statusHandler} editHandler={editHandler}/>
+                <ToDoList todos={todosFilter} statusHandler={statusHandler} editHandler={editHandler}/>
                 
                 <form>
                     <input id="input-button" value={task} className='bg-blue-100 px-2 py-1 rounded-4xl mr-2' onChange={(e) => setTask(e.target.value)}/>
