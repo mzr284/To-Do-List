@@ -1,11 +1,17 @@
+import { useState } from "react"
+
 export default function ToDoItem({todo}){
-    function remove(){
-        console.log(123)
-    }
+    let [display, setDisplay] = useState(true)
     return(
-        <li class="li" className="flex justify-between gap-3">
-            <span>{todo.name}</span>
-            <button class="btn" onClick={remove}>delete</button>
-        </li>
+        <>
+        { display && (
+        <li className="li flex justify-between gap-3">
+            <div>
+                <input type="checkbox" checked={todo.status} className="mr-1.5" onChange={()=>{}}/>
+                <span className={`${todo.status ? "line-through" : ""}`}>{todo.name}</span>
+            </div>
+            <button className="btn" onClick={() => setDisplay(false)}>delete</button>
+        </li>)}
+        </>
     )
 }
