@@ -23,6 +23,19 @@ export default function ToDo(){
         setTodos(updateTodos)
     }
 
+    function editHandler(id, value){
+        let updateTodos = todos.map(
+            (td) => {
+                if(td.id == id){
+                    td.name = value
+                    return td
+                }
+                return td
+            }
+        )
+        setTodos(updateTodos)
+    }
+
     let [task, setTask] = useState("")
 
     function addTask(e){
@@ -41,7 +54,7 @@ export default function ToDo(){
                 <h1 id="main-title" className='text-blue-900 font-bold text-3xl'>TO DO LIST</h1>
                 <input id="input-head" placeholder="search..." className='bg-blue-100 px-2 py-1 rounded-4xl w-full mb-4' onChange={()=>{}}/>
 
-                <ToDoList todos={todos} statusHandler={statusHandler}/>
+                <ToDoList todos={todos} statusHandler={statusHandler} editHandler={editHandler}/>
                 
                 <form>
                     <input id="input-button" value={task} className='bg-blue-100 px-2 py-1 rounded-4xl mr-2' onChange={(e) => setTask(e.target.value)}/>
