@@ -1,12 +1,27 @@
 import { useState } from "react";
 import ToDoList from "./Todolist";
+import { v4 as uuidv4 } from 'uuid';
 
 export default function ToDo(){
     let [todos, setTodos] = useState([
-        {name: "Eating Breakfast", status: false},
-        {name: "Go to the gym", status: true},
-        {name: "Read a book", status: false}
+        {id: uuidv4(), name: "Eating Breakfast", status: false},
+        {id: uuidv4(), name: "Go to the gym", status: true},
+        {id: uuidv4(), name: "Read a book", status: false}
     ])
+    let [vitualTodos, setVirTodos] = useState([])
+
+    function statusHandler(id){
+        let updateTodos = todos.map(
+            (td) =>{
+                if(td.id == id){
+                    td.status = !td.status
+                    return td
+                }
+                return td
+            }
+        )
+        setTodos(updateTodos)
+    }
 
     let [task, setTask] = useState("")
 
@@ -15,7 +30,7 @@ export default function ToDo(){
         if(task.trim() === ""){
             return 0;
         }
-        setTodos([...todos, {name: task, status: false}])
+        setTodos([...todos, {id: uuidv4(), name: task, status: false}])
         setTask("")
     }
 
@@ -26,7 +41,7 @@ export default function ToDo(){
                 <h1 id="main-title" className='text-blue-900 font-bold text-3xl'>TO DO LIST</h1>
                 <input id="input-head" placeholder="search..." className='bg-blue-100 px-2 py-1 rounded-4xl w-full mb-4' onChange={()=>{}}/>
 
-                <ToDoList todos={todos}/>
+                <ToDoList todos={todos} statusHandler={statusHandler}/>
                 
                 <form>
                     <input id="input-button" value={task} className='bg-blue-100 px-2 py-1 rounded-4xl mr-2' onChange={(e) => setTask(e.target.value)}/>
