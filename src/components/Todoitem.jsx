@@ -1,9 +1,13 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
+import { context } from "../contect"
 
-export default function ToDoItem({todo, statusHandler, editHandler}){
+export default function ToDoItem({todo}){
     let [display, setDisplay] = useState(true)
     let [editMode, setEditMode] = useState(false)
     let [valueEdit, setValue] = useState("")
+
+    let statusHandler = useContext(context).statusHandler
+    let editHandler = useContext(context).editHandler
 
     function changeEditMode(id, value){
         if(editMode){
