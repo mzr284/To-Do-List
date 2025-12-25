@@ -1,25 +1,39 @@
 import { createContext } from "react";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid"
+import { v4 as uuidv4, type UUIDTypes } from "uuid"
 
-export let context = createContext();
+export interface contextType {
+    todosFilter : Todo[]
+    addTask : (e:React.MouseEvent<HTMLButtonElement>) => void,
+    task : string,
+    setTask : React.Dispatch<React.SetStateAction<string>>;
+    setSearch : React.Dispatch<React.SetStateAction<string>>;
+    statusHandler : (id:string) => void;
+    editHandler : (id:string, value:string) => void
+}
+export interface Todo {
+    id: string,
+    name: string,
+    status: boolean
+}
 
-export default function AppDateProvider({children}){
+export let context = createContext({} as contextType);
 
-    let [todos, setTodos] = useState([
+export default function AppDateProvider({children} : {children: React.ReactNode}){
+
+    let [todos, setTodos] = useState<Todo[]>([
         {id: uuidv4(), name: "Eating Breakfast", status: false},
         {id: uuidv4(), name: "Go to the gym", status: true},
         {id: uuidv4(), name: "Read a book", status: false},
         {id: uuidv4(), name: "Work on your project", status: false},
     ])
-
     let [vitualTodos, setVirTodos] = useState([])
     let [search, setSearch] = useState("")
     let [task, setTask] = useState("")
 
-    let todosFilter = todos.filter((td) => td.name.toLowerCase().includes(search.toLowerCase()))
+    let todosFilter = (todos as Todo[]).filter((td:Todo) => td.name.toLowerCase().includes(search.toLowerCase()))
 
-    function addTask(e){
+    function addTask(e : React.MouseEvent<HTMLButtonElement>){
         e.preventDefault()
         if(task.trim() === ""){
             return 0;
@@ -28,7 +42,7 @@ export default function AppDateProvider({children}){
         setTask("")
     }
 
-    function statusHandler(id){
+    function statusHandler(id : string){
         let updateTodos = todos.map(
             (td) =>{
                 if(td.id == id){
@@ -41,7 +55,7 @@ export default function AppDateProvider({children}){
         setTodos(updateTodos)
     }
 
-    function editHandler(id, value){
+    function editHandler(id: UUIDTypes, value:string){
         let updateTodos = todos.map(
             (td) => {
                 if(td.id == id){

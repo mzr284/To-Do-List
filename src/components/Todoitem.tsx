@@ -1,7 +1,8 @@
 import { useState, useContext } from "react"
-import { context } from "../contect"
+import { context } from "../contect.js"
+import type { Todo } from "../contect.js"
 
-export default function ToDoItem({todo}){
+export default function ToDoItem({todo} : {todo : Todo}){
     let [display, setDisplay] = useState(true)
     let [editMode, setEditMode] = useState(false)
     let [valueEdit, setValue] = useState("")
@@ -9,7 +10,7 @@ export default function ToDoItem({todo}){
     let statusHandler = useContext(context).statusHandler
     let editHandler = useContext(context).editHandler
 
-    function changeEditMode(id, value){
+    function changeEditMode(id:string, value:string){
         if(editMode){
             setEditMode(false)
             editHandler(id, value)
